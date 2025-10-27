@@ -62,45 +62,45 @@ function setUpGame(){
         let currentX = null
         let currentY = null
         
+
+        document.addEventListener('dragover',(event)=>{
+            event.preventDefault()
+        })
         function onDrag(event){
             
             currentX = event.clientX
             currentY = event.clientY
             
-            console.log(currentX,initialX)
-            if(currentX > initialX && currentX - initialX > 35){
+            if(currentX > initialX && currentX - initialX > 45){
                 initialX = currentX
                 player.getGb().moveShip(shipOnDrag,'right')
                 console.log('right')
-                event.target.removeEventListener('drag',onDrag)
-                initBoard(player)
+                initBoard(player,false)
                 
-            }else if(currentX < initialX && currentX - initialX < -35){
+                
+            }else if(currentX < initialX && currentX - initialX < -45){
                 initialX = currentX
                 player.getGb().moveShip(shipOnDrag,'left')
                 console.log('left')
-                event.target.removeEventListener('drag',onDrag)
-                initBoard(player)
+                initBoard(player,false)
                
-            }else if(currentY < initialY && currentY - initialY < -35){
+            }else if(currentY < initialY && currentY - initialY < -45){
                 initialY = currentY
                 player.getGb().moveShip(shipOnDrag,'up')
                 console.log('up')
-                event.target.removeEventListener('drag',onDrag)
-                initBoard(player)
+                initBoard(player,false)
                
-            }else if(currentY > initialY && currentY - initialY > 35){
+            }else if(currentY > initialY && currentY - initialY > 45){
                 initialY = currentY
                 player.getGb().moveShip(shipOnDrag,'down')
                 console.log('down')
-                event.target.removeEventListener('drag',onDrag)
-                initBoard(player)
-            } 
+                initBoard(player,false)
+            }
         }
 
-        initBoard(player)
+        initBoard(player,true)
 
-        function initBoard(player){
+        function initBoard(player, setUp){
             playArea.innerHTML = ""
             let playerInfo = document.createElement('h1')
             playerInfo.innerText = player.name
@@ -109,11 +109,8 @@ function setUpGame(){
             let grid = document.createElement('div')
             grid.className = 'grid'
             
-            
-            
             playArea.append(grid) 
             
-           
             for (let i = 0; i < 10; i++) {
                 for (let j = 0; j < 10; j++) {
                     let cell = document.createElement('div')
@@ -124,28 +121,28 @@ function setUpGame(){
                     if(typeof player.getGb().getMap()[i][j] == 'object'){
                         cell.classList.add('ship')
                         cell.classList.add(typeOfCell(player.getGb().getMap()[i][j],i,j))
-                        cell.addEventListener('mousedown',(event)=>{
+                        if(setUp){
+                            cell.addEventListener('mousedown',(event)=>{
 
-                            cellX = event.target.dataset.row
-                            cellY = event.target.dataset.col
+                                cellX = event.target.dataset.row
+                                cellY = event.target.dataset.col
 
-                            initialX= event.clientX
-                            initialY = event.clientY
+                                initialX= event.clientX
+                                initialY = event.clientY
 
-                            currentX = initialX
-                            currentY = initialY
+                                currentX = initialX
+                                currentY = initialY
 
-                            shipOnDrag = player.getGb().getMap()[cellX][cellY]
-                            cell.addEventListener('drag',onDrag)   
-                        })
+                                shipOnDrag = player.getGb().getMap()[cellX][cellY]
+                                cell.addEventListener('drag',onDrag)   
+                            })
 
                         cell.addEventListener('dragend',()=>{
-                            console.log('end');
-                            
-                        })
+                            initBoard(player,true)
 
+                        })
+                        }
                         
- 
                     }else{
                         
                         cell.classList.add('cell')
@@ -157,6 +154,9 @@ function setUpGame(){
                     
                 }
             }
+        }
+
+        
 
             
         }
@@ -193,8 +193,8 @@ function setUpGame(){
         }
 
     }          
-    }
 }
+
 
 
 setUpGame()
