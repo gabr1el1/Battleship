@@ -1,0 +1,91 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0
+}
+
+body,html{
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+.header{
+    flex: 1;
+    padding: 10px 15px 10px 15px;
+    max-height: min-content;
+}
+
+.play-area{
+    flex:1;
+    padding: 10px;
+}
+.grid{
+    display: grid;
+    grid-template-columns: repeat(10,40px);
+    grid-template-rows: repeat(10,40px);
+}
+
+.cell{
+    border: solid grey thin;
+}
+
+.complete{
+    border: medium solid blue;
+}
+
+.init-vert{
+    border-top: medium solid blue;
+    border-left: medium solid blue;
+    border-right: medium solid blue;
+}
+
+.init-horiz{
+    border-top:medium solid blue;
+    border-left:medium solid blue;
+    border-bottom:medium solid blue;
+}
+
+.middle-vert{
+    border-left:medium solid blue;
+    border-right: medium solid blue;
+}
+
+.middle-horiz{
+    border-top:medium solid blue;
+    border-bottom: medium solid blue;
+}
+
+.final-vert{
+    border-bottom: medium solid blue;
+    border-left:medium solid blue;
+    border-right: medium solid blue;
+}
+
+.final-horiz{
+    border-top:medium solid blue;
+    border-right: medium solid blue;
+    border-bottom: medium solid blue;
+}
+
+
+
+
+
+.ship{
+    background-color: black;
+}
+
+button.play{
+    width: 100px;
+    height: 50px;
+}
+
