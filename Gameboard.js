@@ -38,21 +38,25 @@ export default function Gameboard(){
         }
         for (let i = 0; i < ship.length; i++) {
             if(isShipVert){
-                if(initRow+i>9 || _map[initRow+i][initCol]!=OPEN_SHOT){
+                if(_map[initRow+i][initCol]!=OPEN_SHOT){
                     if(i==0){
                         return false
+                    }else{
+                        cleanLine(initRow,initCol,i,isShipVert)
+                        return false
                     }
-                    cleanLine(initRow, initCol,i-1,isShipVert)
-                    return false
+                    
                 }
                 _map[initRow+i][initCol] = ship
             }else{
-                if(initCol+i>9 || _map[initRow][initCol+i]!=OPEN_SHOT ){
+                if(_map[initRow][initCol+i]!=OPEN_SHOT ){
                     if(i==0){
                         return false
+                    }else{
+                        cleanLine(initRow,initCol,i,isShipVert)
+                        return false
                     }
-                    cleanLine(initRow, initCol,i-1, isShipVert)
-                    return false
+                       
                 }
                 _map[initRow][initCol+i] = ship
             }
@@ -62,7 +66,7 @@ export default function Gameboard(){
     }
 
     function cleanLine(initRow, initCol, length, isVert){
-        for (let i = 0; i <= length; i++) {
+        for (let i = 0; i < length; i++) {
             if(isVert){
                 _map[initRow+i][initCol] = OPEN_SHOT
             }else{
@@ -86,39 +90,35 @@ export default function Gameboard(){
 
     function moveShip(ship, direction){
         let pos = ship.getPos()
-        cleanLine(pos.initRow, pos.initCol,ship.length,ship.isVert)
+        cleanLine(pos.initRow, pos.initCol,ship.length,pos.isVert)
         if(direction=='right'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow,pos.initCol+1,ship,pos.isVert)){
-                    placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
+                    placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow,pos.initCol+1,ship,pos.isVert)){
-                    placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
+                    placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }
         }else if(direction=='left'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow,pos.initCol-1,ship,pos.isVert)){
-                    
-                    placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
+                    placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow,pos.initCol-1,ship,pos.isVert)){
-                    
-                    placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
+                    placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }
 
         }else if(direction=='up'){
             if(pos.isVert){
-                if(!placeShip(pos.initRow-1,pos.initCol,ship,pos.isVert)){
-                    
+                if(!placeShip(pos.initRow-1,pos.initCol,ship,pos.isVert)){ 
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow-1,pos.initCol,ship,pos.isVert)){
-                    
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }
@@ -126,12 +126,10 @@ export default function Gameboard(){
         }else if(direction=='down'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow+1,pos.initCol,ship,pos.isVert)){
-                    
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow+1,pos.initCol,ship,pos.isVert)){
-                    
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }

@@ -5,7 +5,9 @@ function setUpGame(){
     const player1 = Player('player1','human')
     player1.setPieces()
     const player2 = Player('player2','human')
+    player2.setPieces()
 
+    let readyCount = 0
     let body =  document.querySelector('body')
 
     let header = document.createElement('div')
@@ -21,6 +23,13 @@ function setUpGame(){
     playBtn.className = 'play'
 
     playBtn.addEventListener('click',()=>{
+        console.log(player1.getGb().getMap())
+        console.log(player2.getGb().getMap())
+        
+        readyCount+=1
+        if(readyCount==2){
+            document.querySelector('.header').remove()
+        }
         let dropdown = Object.assign(
             document.createElement('select'),
             {id:'select-type-player'}
