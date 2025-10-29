@@ -30,10 +30,7 @@ body{
     grid-template-rows: repeat(10,40px);
 }
 
-.open{
-    border: solid grey thin;
-    background-color: lightgrey;
-}
+
 
 .complete{
     border: medium solid var(--border-color);
@@ -75,8 +72,13 @@ body{
     border-bottom: medium solid var(--border-color);
 }
 
-.ship{
+.cell{
     background-color: var(--background-color);
+}
+
+.open{
+    --background-color: lightgrey;
+    border: solid grey thin;
 }
 
 .clear{
@@ -87,6 +89,10 @@ body{
 .hit{
     --background-color: red;
     --border-color: darkred;
+}
+
+.missed{
+    --background-color: black;
 }
 
 button.play{

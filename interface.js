@@ -92,9 +92,9 @@ function setUpGame(){
                     cell.dataset.col = j
                     
                     let map = player.getGb().getMap()
-                    
+                    cell.classList.add('cell')
                     if(typeof map[i][j] == 'object'){
-                        cell.classList.add('ship')
+                        
                         cell.classList.add('clear')
 
                         cell.classList.add(typeOfCell(player.getGb().getMap()[i][j],i,j))
@@ -222,46 +222,37 @@ function playTurn(player1,player2){
 
     function showBoards(player1, player2){
 
-        if(player1.getType()=="human" && player2.getType()=="human"){
-            makeGrid(player1,false)
-            makeGrid(player2,true)
-        }
 
-        function makeGrid(player,currPlayer){
+        makeGrid(player1, true)
+        makeGrid(player2, false)
+        function makeGrid(player, currPlayer){
             let grid = document.createElement('div')
             grid.className = 'grid'
             playArea.append(grid)
-            for (let i = 0; i < 10; i++) {
-                for (let j = 0; j < 10; j++) {
+            for (let i= 0; index < 10; i++) {
+                for (let i = 0; i < 10; i++) {
+                    
                     let cell = document.createElement('div')
-                    cell.dataset.row = i
-                    cell.dataset.col = j
-
-                    let map = player.getGb().getMap() 
-                    
-                    if(map[i][j]==player.getGb().OPEN_SHOT){
-                        cell.classList.add('open')  
-                        if(!currPlayer){
-                            cell.addEventListener('click',()=>{
-                                player.getGb().getMap().receiveAttack(i,j)
-                                cell.classList.add('missed')
-                            })
-                        } 
-                    }else if(map[i][j]==player.getGb().MISSED){
-                        cell.classList.add('missed')
-                    }else if(typeof map[i][j] == 'object'){
-                        if(currPlayer){
+                    let gb = player.getGb()
+                    let map = gb.getMap()
+                    let pos = map[i][j]
+                    if(currPlayer && player.getType()=='computer'){
+                        if(pos==gb.OPEN_SHOT){
+                            cell.classList.add('open')
+                        }else if(pos==gb.MISSED){
+                            cell.classList.add('missed')
+                        }else if(typeof pos == 'object'){
                             cell.classList.add('ship')
-                            cell.classList.add(
-                            typeOfCell(map[i][j],i,j))
-                            cell.classList.add(map[i][j].getPosStatus(i,j))
-                        }else{
-                            
-                        }
-                        
+                            if(pos.isSunk()){
+                                cell.classList.add('hit')
+                                cell.classList.add(typeOfCell(pos))
+                            }else{
 
+                            }
+                        }
                     }
-                    
+
+
                 }
             }
         }
