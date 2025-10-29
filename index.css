@@ -14,10 +14,13 @@ body{
     flex-direction: column;
 }
 
+
 .header{
     flex: 1;
     padding: 10px 15px 10px 15px;
     max-height: min-content;
+    display: flex;
+    gap:10px;
 }
 
 .play-area{
@@ -99,4 +102,15 @@ button.play{
     width: 100px;
     height: 50px;
 }
+
+.wait-modal{
+    position: absolute;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 

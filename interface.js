@@ -1,40 +1,76 @@
+
 import Player from "./Player.js";
 
-
 function setUpGame(){
-    const player1 = Player('player1','human')
+    let player1 = Player('player1','human')
     player1.setPieces()
-    const player2 = Player('player2','human')
+    let player2 = Player('player2','human')
     player2.setPieces()
-
-    let readyCount = 0
-    let body =  document.querySelector('body')
-
-    let header = document.createElement('div')
     
-    let playArea = document.createElement('div')
+    setUpHeader()
+    setUpBoard(player1)
+    
+   
+    function setUpHeader(){
+        let header = document.createElement('div')
+        header.className = 'header'
 
-    header.className = 'header'
-    playArea.className = 'play-area'
+        let playBtn = document.createElement('button')
 
-    let playBtn = document.createElement('button')
+        playBtn.innerText = 'Play'
+        playBtn.className = 'play'
 
-    playBtn.innerText = 'Play'
-    playBtn.className = 'play'
+        let playCount = 0
+        playBtn.addEventListener('click',()=>{
+            let count = 0
+            let interval
 
-    playBtn.addEventListener('click',()=>{
-        readyCount+=1
-        if(readyCount==2){
-            console.log(player1.getGb().getMap());
-            console.log(player2.getGb().getMap());
-            document.querySelector('.header').remove()
-            document.querySelector('.play-area').remove()
-            playTurn(player1,player2)
-        }
-        let dropdown = Object.assign(
-            document.createElement('select'),
-            {id:'select-type-player'}
+            playCount+=1
+            function changePlayer(){
+                count+=1
+                document.querySelector('.wait-modal').innerText = 
+                    `${count}s of 5s to switch to ${player2.name}`
+                if(count==5){ 
+                    document.querySelector('.wait-modal').remove()
+                    player2.setPieces()
+                    if(player2.getType()=='human'){
+                        setUpBoard(player2)
+                    }else{
+                        player2.setPieces()
+                    }
+                    clearInterval(interval)
+                }
+            }
+            if(playCount==1){
+                interval = setInterval(changePlayer,1000)
+                document.querySelector('body').append(
+                    Object.assign(
+                        document.createElement('div'),
+                        {innerText: 
+                        `${count}s of 5s to switch to ${player2.name}`,
+                        className: 'wait-modal'}
+                    )
+                )
+
+            }else{
+                document.querySelector('body').innerHTML = ""
+                console.log(player1.getGb().getMap())
+                console.log(player2.getGb().getMap())
+            }
+            
+            
+        })
+        let p1Section = document.createElement('div')
+        p1Section.append(
+            Object.assign(document.createElement('p'),{
+                innerText: player1.name
+            })
         )
+        let p2Section = document.createElement('div')
+        let dropdown = Object.assign(
+                document.createElement('select'),
+                {id:'select-type-player'}
+            )
         let option1 = Object.assign(
             document.createElement('option'),
             {value:'human',textContent:'Human'})
@@ -45,22 +81,24 @@ function setUpGame(){
 
         dropdown.addEventListener('change',(e)=>{
             player2.setType(e.target.value)
-            player2.setPieces()
-            setUpBoard(player2)
+            
         })
-        header.append(dropdown)
-        player2.setPieces()
-        setUpBoard(player2)
-    })
-    
-    
-    header.append(playBtn)
-    body.append(header)
-    body.append(playArea)
 
-    setUpBoard(player1)
-   
-    
+        p2Section.append(
+            Object.assign(document.createElement('p'),{
+                innerText: player2.name
+            })
+        )
+
+        p2Section.append(dropdown)
+
+
+        header.append(p1Section)
+        header.append(p2Section)
+        header.append(playBtn)
+        document.querySelector('body').append(header)
+        
+    }
     function setUpBoard(player){
         
         let initialX = null
@@ -71,6 +109,21 @@ function setUpGame(){
 
         let currentX = null
         let currentY = null
+
+        let playArea
+        if(!document.querySelector('.play-area')){
+            playArea = document.createElement('div')
+            playArea.className = 'play-area'
+            document.querySelector('body').append(playArea)
+        }else{
+            document.querySelector('.play-area').remove()
+            playArea = document.createElement('div')
+            playArea.className = 'play-area'
+            document.querySelector('body').append(playArea)
+        }
+         
+        
+        
 
         initBoard(player,true)
 
@@ -97,7 +150,7 @@ function setUpGame(){
                         
                         cell.classList.add('clear')
 
-                        cell.classList.add(typeOfCell(player.getGb().getMap()[i][j],i,j))
+                        cell.classList.add(typeOfBorder(player.getGb().getMap()[i][j],i,j))
                         if(setUp){
                             cell.addEventListener('mousedown',(event)=>{
 
@@ -172,7 +225,7 @@ function setUpGame(){
     }            
 }
 
-function typeOfCell(shipCell,i,j){
+function typeOfBorder(shipCell,i,j){
     let pos = shipCell.getPos()
     let finalRow = pos.isVert ? 
     pos.initRow + shipCell.length - 1 : pos.initRow
@@ -236,18 +289,17 @@ function playTurn(player1,player2){
                     let gb = player.getGb()
                     let map = gb.getMap()
                     let pos = map[i][j]
+
+                    cell.classList.add('cell')
                     if(currPlayer && player.getType()=='computer'){
                         if(pos==gb.OPEN_SHOT){
                             cell.classList.add('open')
                         }else if(pos==gb.MISSED){
                             cell.classList.add('missed')
                         }else if(typeof pos == 'object'){
-                            cell.classList.add('ship')
-                            if(pos.isSunk()){
-                                cell.classList.add('hit')
-                                cell.classList.add(typeOfCell(pos))
-                            }else{
-
+                            cell.classList.add(pos.getPosStatus(i,j))
+                            if(pos.isSunk()){ 
+                                cell.classList.add(typeOfBorder(pos))
                             }
                         }
                     }
