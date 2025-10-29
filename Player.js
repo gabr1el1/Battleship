@@ -8,6 +8,10 @@ export default function Player(name,type){
         _type = type
     }
 
+    function getType(){
+        return _type
+    }
+
     function setPieces(){
         _gb.initMap()
         let ships = [
@@ -48,8 +52,11 @@ export default function Player(name,type){
                 
                 let randX = Math.floor(Math.random() * (10)) 
                 let randY = Math.floor(Math.random() * (10)) 
+                
                 let isVertical = Boolean(Math.round(Math.random()))
-                if(_gb.placeShip(randX,randY,ships[i],isVertical)){
+                let goodPlace = _gb.placeShip(randX,randY,ships[i],isVertical)
+                console.log(`x: ${randX} y: ${randY}, length: ${ships[i].length} vertical: ${isVertical} good: ${goodPlace}`)
+                if(goodPlace){
                     i+=1
                 }
             }
@@ -60,5 +67,5 @@ export default function Player(name,type){
         return _gb
     }
 
-    return {getGb, name, setPieces, setType}
+    return {getGb, name, setPieces, setType,getType}
 }

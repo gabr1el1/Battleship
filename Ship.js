@@ -1,7 +1,22 @@
 export default function Ship(length){
     let _hits = 0
     let _initRow, _initCol, _isVert
-    let hitPos = {}
+    let _positions = {}
+
+    const HIT = 'hit'
+    const CLEAR = 'clear'
+    function setPosStatus(i,j,status){
+        _positions[`${i}${j}`] = status
+    }
+
+    function getPosStatus(i,j){
+        return _positions[`${i}${j}`]
+    }
+
+    function clearPosStatus(){
+        _positions = {}
+    }
+
     function hit(){
         _hits+=1
     }
@@ -11,6 +26,8 @@ export default function Ship(length){
         _initCol = initCol
         _isVert = isVert
     }
+
+
 
     function getPos(){
         return {
@@ -27,6 +44,8 @@ export default function Ship(length){
 
     
 
-    return {hit, isSunk, length, setPos, getPos}
+    return {hit, isSunk, length, setPos, 
+            getPos, HIT, CLEAR, setPosStatus,
+            getPosStatus, clearPosStatus}
 }
 

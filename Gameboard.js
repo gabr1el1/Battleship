@@ -6,7 +6,7 @@ export default function Gameboard(){
     const CLOSED = 'closed'
     const HIT = 'hit'
 
-    let sunkenShips = []
+    let sunkenShips = 0
 
     let _map = []
     
@@ -36,6 +36,12 @@ export default function Gameboard(){
         if(initRow<0 || initRow>9 || initRow<0 || initCol>9 ){
             return false
         }
+        if(isShipVert && initRow + ship.length - 1 > 9){
+            return false
+        }else if(!isShipVert && initCol + ship.length - 1 > 9){
+            return false
+        }
+
         for (let i = 0; i < ship.length; i++) {
             if(isShipVert){
                 if(_map[initRow+i][initCol]!=OPEN_SHOT){
@@ -46,8 +52,11 @@ export default function Gameboard(){
                         return false
                     }
                     
+                }else{
+                    ship.setPosStatus(initRow+i,initCol,ship.CLEAR)
+                    _map[initRow+i][initCol] = ship
                 }
-                _map[initRow+i][initCol] = ship
+                
             }else{
                 if(_map[initRow][initCol+i]!=OPEN_SHOT ){
                     if(i==0){
@@ -57,8 +66,11 @@ export default function Gameboard(){
                         return false
                     }
                        
+                }else{
+                    ship.setPosStatus(initRow,initCol+i,ship.CLEAR)
+                    _map[initRow][initCol+i] = ship
                 }
-                _map[initRow][initCol+i] = ship
+                
             }
         }
         ship.setPos(initRow, initCol, isShipVert)
@@ -78,13 +90,13 @@ export default function Gameboard(){
     function receiveAttack(row,col){
         let pos = _map[row][col]
         if(pos==OPEN_SHOT){
-            _map[row][col] = MISSED
+            pos = MISSED
         }else if(typeof pos == 'object'){
-            _map[row][letrToNum[col]].hit()
+            pos.hit()
+            pos.setPosStatus(row,col,pos.HIT)
             if(pos.isSunk()){
-                sunkenShips.push(pos)
+                sunkenShips+=1
             }
-            _map[row][col] = HIT
         }
     }
 
@@ -94,20 +106,24 @@ export default function Gameboard(){
         if(direction=='right'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow,pos.initCol+1,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow,pos.initCol+1,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }
         }else if(direction=='left'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow,pos.initCol-1,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow,pos.initCol-1,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }
@@ -115,10 +131,12 @@ export default function Gameboard(){
         }else if(direction=='up'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow-1,pos.initCol,ship,pos.isVert)){ 
+                    ship.clearPosStatus()
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow-1,pos.initCol,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }
@@ -126,10 +144,12 @@ export default function Gameboard(){
         }else if(direction=='down'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow+1,pos.initCol,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }else{
                 if(!placeShip(pos.initRow+1,pos.initCol,ship,pos.isVert)){
+                    ship.clearPosStatus()
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }

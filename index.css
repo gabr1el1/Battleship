@@ -14,10 +14,6 @@ body{
     flex-direction: column;
 }
 
-
-
-
-
 .header{
     flex: 1;
     padding: 10px 15px 10px 15px;
@@ -34,54 +30,63 @@ body{
     grid-template-rows: repeat(10,40px);
 }
 
-.cell{
+.open{
     border: solid grey thin;
+    background-color: lightgrey;
 }
 
 .complete{
-    border: medium solid blue;
+    border: medium solid var(--border-color);
 }
 
+
+
 .init-vert{
-    border-top: medium solid blue;
-    border-left: medium solid blue;
-    border-right: medium solid blue;
+    border-top: medium solid var(--border-color);
+    border-left: medium solid var(--border-color);
+    border-right: medium solid var(--border-color);
 }
 
 .init-horiz{
-    border-top:medium solid blue;
-    border-left:medium solid blue;
-    border-bottom:medium solid blue;
+    border-top:medium solid var(--border-color);
+    border-left:medium solid var(--border-color);
+    border-bottom:medium solid var(--border-color);
 }
 
 .middle-vert{
-    border-left:medium solid blue;
-    border-right: medium solid blue;
+    border-left:medium solid var(--border-color);
+    border-right: medium solid var(--border-color);
 }
 
 .middle-horiz{
-    border-top:medium solid blue;
-    border-bottom: medium solid blue;
+    border-top:medium solid var(--border-color);
+    border-bottom: medium solid var(--border-color);
 }
 
 .final-vert{
-    border-bottom: medium solid blue;
-    border-left:medium solid blue;
-    border-right: medium solid blue;
+    border-bottom: medium solid var(--border-color);
+    border-left:medium solid var(--border-color);
+    border-right: medium solid var(--border-color);
 }
 
 .final-horiz{
-    border-top:medium solid blue;
-    border-right: medium solid blue;
-    border-bottom: medium solid blue;
+    border-top:medium solid var(--border-color);
+    border-right: medium solid var(--border-color);
+    border-bottom: medium solid var(--border-color);
 }
 
-
-
-
-
 .ship{
-    background-color: black;
+    background-color: var(--background-color);
+}
+
+.clear{
+    --background-color: skyblue;
+    --border-color: darkblue;
+}
+
+.hit{
+    --background-color: red;
+    --border-color: darkred;
 }
 
 button.play{
