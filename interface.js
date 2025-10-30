@@ -8,9 +8,7 @@ function setUpGame(){
     player2.setPieces()
     
     setUpHeader()
-    setUpBoard(player1)
-    
-   
+
     function setUpHeader(){
         let header = document.createElement('div')
         header.className = 'header'
@@ -21,45 +19,7 @@ function setUpGame(){
         playBtn.className = 'play'
 
         let playCount = 0
-        playBtn.addEventListener('click',()=>{
-            let count = 0
-            let interval
 
-            playCount+=1
-            function changePlayer(){
-                count+=1
-                document.querySelector('.wait-modal').innerText = 
-                    `${count}s of 5s to switch to ${player2.name}`
-                if(count==5){ 
-                    document.querySelector('.wait-modal').remove()
-                    player2.setPieces()
-                    if(player2.getType()=='human'){
-                        setUpBoard(player2)
-                    }else{
-                        player2.setPieces()
-                    }
-                    clearInterval(interval)
-                }
-            }
-            if(playCount==1){
-                interval = setInterval(changePlayer,1000)
-                document.querySelector('body').append(
-                    Object.assign(
-                        document.createElement('div'),
-                        {innerText: 
-                        `${count}s of 5s to switch to ${player2.name}`,
-                        className: 'wait-modal'}
-                    )
-                )
-
-            }else{
-                document.querySelector('body').innerHTML = ""
-                console.log(player1.getGb().getMap())
-                console.log(player2.getGb().getMap())
-            }
-            
-            
-        })
         let p1Section = document.createElement('div')
         p1Section.append(
             Object.assign(document.createElement('p'),{
@@ -91,12 +51,57 @@ function setUpGame(){
         )
 
         p2Section.append(dropdown)
-
-
         header.append(p1Section)
         header.append(p2Section)
         header.append(playBtn)
         document.querySelector('body').append(header)
+
+        playBtn.addEventListener('click',()=>{
+            
+            let count = 0
+            let interval
+
+            playCount+=1
+            function changePlayer(){
+                count+=1
+                document.querySelector('.wait-modal').innerText = 
+                    `${count}s of 5s to switch to ${player2.name}`
+                if(count==5){ 
+                    document.querySelector('.wait-modal').remove()
+                    document.querySelector('body').innerHTML = ""
+                    clearInterval(interval)
+                }
+            }
+            
+            if(playCount==1){
+                setUpBoard(player1)
+                document.querySelector('.play-area').append(playBtn)
+                header.remove()
+            }else if(player2.getType()=='human' && playCount==2){
+                setUpBoard(player2)
+                document.querySelector('.play-area').append(playBtn)
+            }else if(player2.getType()=='computer' && playCount==2){
+
+                player2.setPieces()
+                document.querySelector('body').innerHTML = ""
+                console.log(player1.getGb().getMap())
+                console.log(player2.getGb().getMap())
+                
+            }else if(player2.getType()=='human' && playCount==3){
+                interval = setInterval(changePlayer,1000)
+                document.querySelector('body').append(
+                    Object.assign(
+                    document.createElement('div'),
+                    {innerText: 
+                    `${count}s of 5s to switch to ${player1.name}`,
+                    className: 'wait-modal'}
+                    )
+                )
+            }
+            
+        })
+
+        
         
     }
     function setUpBoard(player){
