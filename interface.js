@@ -75,11 +75,11 @@ function setUpGame(){
             
             if(playCount==1){
                 setUpBoard(player1)
-                document.querySelector('.play-area').append(playBtn)
+                document.querySelector('body').append(playBtn)
                 header.remove()
             }else if(player2.getType()=='human' && playCount==2){
                 setUpBoard(player2)
-                document.querySelector('.play-area').append(playBtn)
+                document.querySelector('body').append(playBtn)
             }else if(player2.getType()=='computer' && playCount==2){
 
                 player2.setPieces()
