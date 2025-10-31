@@ -4,9 +4,9 @@ import typeOfBorder from "./typeOfBorder.js";
 import playTurn from "./playTurn.js";
 function setUpGame(){
     let player1 = Player('player1','human')
-    player1.setPieces()
+    
     let player2 = Player('player2','human')
-    player2.setPieces()
+   
     setUpHeader(player1,player2)   
 }
 
@@ -70,9 +70,8 @@ function setUpHeader(player1, player2){
             if(count==5){ 
                 document.querySelector('.wait-modal').remove()
                 document.querySelector('body').innerHTML = ""
-                console.log(player1.getGb().getMap())
-                console.log(player2.getGb().getMap())
                 clearInterval(interval)
+                playTurn(player1,player2)
             }
         }
         
@@ -82,13 +81,16 @@ function setUpHeader(player1, player2){
             document.querySelector('body').append(playBtn)
             header.remove()
         }else if(player2.getType()=='human' && playCount==2){
+            player2.setPieces()
             setUpBoard(player2)
             document.querySelector('body').append(playBtn)
         }else if(player2.getType()=='computer' && playCount==2){
             player2.setPieces()
-            playTurn(player1,player2)
+           
         }else if(player2.getType()=='human' && playCount==3){
+            player2.setPieces()
             interval = setInterval(changePlayer,1000)
+            
             document.querySelector('body').append(
                 Object.assign(
                 document.createElement('div'),
@@ -143,10 +145,9 @@ function setUpBoard(player){
                     
                     let map = player.getGb().getMap()
                     cell.classList.add('cell')
-                    if(typeof map[i][j] == 'object'){
-                        
-                        cell.classList.add('clear')
 
+                    if(typeof map[i][j] == 'object'){
+                        cell.classList.add('clear')
                         cell.classList.add(typeOfBorder(player.getGb().getMap()[i][j],i,j))
                         if(setUp){
                             cell.addEventListener('mousedown',(event)=>{
