@@ -1,9 +1,22 @@
 import Gameboard from "./Gameboard.js"
 import Ship from "./Ship.js"
+import randInt from "./randInt.js"
 export default function Player(name,type){
 
     let _gb = Gameboard()
     let _type = type
+    let av_moves = []
+
+    
+    function _initMoves(){
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                av_moves[`${i}${j}`] = [i,j]
+            }
+            
+    }
+    }
+
     function setType(type){
         _type = type
     }
@@ -11,6 +24,16 @@ export default function Player(name,type){
     function getType(){
         return _type
     }
+
+    function setMove(row,col){
+        delete av_moves[`${row}${col}`]
+    }
+
+    function getMoves(){
+        return av_moves
+    }
+
+
 
     function setPieces(){
         _gb.initMap()
@@ -50,12 +73,11 @@ export default function Player(name,type){
             let i = 0
             while(i<=9){
                 
-                let randX = Math.floor(Math.random() * (10)) 
-                let randY = Math.floor(Math.random() * (10)) 
-                
-                let isVertical = Boolean(Math.round(Math.random()))
-                let goodPlace = _gb.placeShip(randX,randY,ships[i],isVertical)
-                console.log(`x: ${randX} y: ${randY}, length: ${ships[i].length} vertical: ${isVertical} good: ${goodPlace}`)
+                const x = randInt(0,9)
+                const y = randInt(0,9)
+                const isVertical = Math.random() < 0.5
+                const goodPlace = _gb.placeShip(x,y,ships[i],isVertical)
+                //console.log(`x: ${randX} y: ${randY}, length: ${ships[i].length} vertical: ${isVertical} good: ${goodPlace}`)
                 if(goodPlace){
                     i+=1
                 }
@@ -67,5 +89,8 @@ export default function Player(name,type){
         return _gb
     }
 
-    return {getGb, name, setPieces, setType,getType}
+    _initMoves()
+    return {getGb, name, setPieces, 
+        setType,getType, setMove,
+        getMoves}
 }

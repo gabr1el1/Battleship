@@ -1,11 +1,13 @@
 import Ship from "./Ship.js";
 
 export default function Gameboard(){
-    const OPEN_SHOT = ' '
+    const OPEN_SHOT = 'open'
     const MISSED = 'missed'
     const CLOSED = 'closed'
     const HIT = 'hit'
+    const CLEAR = 'clear'
 
+    
     let sunkenShips = 0
 
     let _map = []
@@ -15,18 +17,14 @@ export default function Gameboard(){
     }
 
     function initMap(){
-        _map = [
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-        OPEN_SHOT.repeat(10).split(''),
-    ]
+        for (let i = 0; i < 10; i++) {
+            let temp = []
+            for (let j = 0; j < 10; j++) {
+                temp.push(OPEN_SHOT)  
+            }
+            _map.push(temp)
+            
+        }
     }
 
   
@@ -53,7 +51,7 @@ export default function Gameboard(){
                     }
                     
                 }else{
-                    ship.setPosStatus(initRow+i,initCol,ship.CLEAR)
+                    ship.setPosStatus(initRow+i,initCol,CLEAR)
                     _map[initRow+i][initCol] = ship
                 }
                 
@@ -67,7 +65,7 @@ export default function Gameboard(){
                     }
                        
                 }else{
-                    ship.setPosStatus(initRow,initCol+i,ship.CLEAR)
+                    ship.setPosStatus(initRow,initCol+i,CLEAR)
                     _map[initRow][initCol+i] = ship
                 }
                 
@@ -88,15 +86,18 @@ export default function Gameboard(){
     }
 
     function receiveAttack(row,col){
+        
         let pos = _map[row][col]
         if(pos==OPEN_SHOT){
             pos = MISSED
+            return MISSED
         }else if(typeof pos == 'object'){
             pos.hit()
-            pos.setPosStatus(row,col,pos.HIT)
+            pos.setPosStatus(row,col,HIT)
             if(pos.isSunk()){
                 sunkenShips+=1
             }
+            return HIT
         }
     }
 

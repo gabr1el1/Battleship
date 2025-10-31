@@ -3,8 +3,6 @@ export default function Ship(length){
     let _initRow, _initCol, _isVert
     let _positions = {}
 
-    const HIT = 'hit'
-    const CLEAR = 'clear'
     function setPosStatus(i,j,status){
         _positions[`${i}${j}`] = status
     }
@@ -45,7 +43,7 @@ export default function Ship(length){
     
 
     return {hit, isSunk, length, setPos, 
-            getPos, HIT, CLEAR, setPosStatus,
+            getPos,setPosStatus,
             getPosStatus, clearPosStatus}
 }
 
