@@ -1,15 +1,10 @@
-import Ship from "./Ship.js";
-
 export default function Gameboard(){
     const OPEN_SHOT = 'open'
     const MISSED = 'missed'
-    const CLOSED = 'closed'
     const HIT = 'hit'
     const CLEAR = 'clear'
 
-    
     let sunkenShips = 0
-
     let _map
     
     function getMap(){
@@ -28,10 +23,7 @@ export default function Gameboard(){
         }
     }
 
-  
-
     function placeShip(initRow, initCol, ship, isShipVert){
-        
         if(initRow<0 || initRow>9 || initRow<0 || initCol>9 ){
             return false
         }
@@ -49,13 +41,11 @@ export default function Gameboard(){
                     }else{
                         cleanLine(initRow,initCol,i,isShipVert)
                         return false
-                    }
-                    
+                    }  
                 }else{
                     ship.setPosStatus(initRow+i,initCol,CLEAR)
                     _map[initRow+i][initCol] = ship
                 }
-                
             }else{
                 if(_map[initRow][initCol+i]!=OPEN_SHOT ){
                     if(i==0){
@@ -63,13 +53,11 @@ export default function Gameboard(){
                     }else{
                         cleanLine(initRow,initCol,i,isShipVert)
                         return false
-                    }
-                       
+                    }         
                 }else{
                     ship.setPosStatus(initRow,initCol+i,CLEAR)
                     _map[initRow][initCol+i] = ship
                 }
-                
             }
         }
         ship.setPos(initRow, initCol, isShipVert)
@@ -87,12 +75,11 @@ export default function Gameboard(){
     }
 
     function receiveAttack(row,col){
-        
-        let pos = _map[row][col]
-        if(pos==OPEN_SHOT){
-            pos = MISSED
+        if(_map[row][col]==OPEN_SHOT){
+            _map[row][col] = MISSED
             return MISSED
-        }else if(typeof pos == 'object'){
+        }else if(typeof _map[row][col] == 'object'){
+            let pos = _map[row][col]
             pos.hit()
             pos.setPosStatus(row,col,HIT)
             if(pos.isSunk()){
@@ -129,7 +116,6 @@ export default function Gameboard(){
                     placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
                 }
             }
-
         }else if(direction=='up'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow-1,pos.initCol,ship,pos.isVert)){ 
@@ -142,7 +128,6 @@ export default function Gameboard(){
                     placeShip(pos.initRow, pos.initCol,ship,pos.isVert)
                 }
             }
-
         }else if(direction=='down'){
             if(pos.isVert){
                 if(!placeShip(pos.initRow+1,pos.initCol,ship,pos.isVert)){
@@ -162,11 +147,10 @@ export default function Gameboard(){
         return sunkenShips.length == 10
     }
 
-    return {placeShip, receiveAttack, 
-        MISSED, CLOSED, HIT, sunkenShips,
-        gameOver, getMap,
-        moveShip, initMap}
-    
+    return {placeShip, receiveAttack,
+        CLEAR, MISSED,  HIT, OPEN_SHOT,
+        sunkenShips, gameOver, getMap,
+        moveShip, initMap}  
 }
 
 

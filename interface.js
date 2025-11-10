@@ -66,7 +66,7 @@ function setUpHeader(player1, player2){
         function changePlayer(){
             count+=1
             document.querySelector('.wait-modal').innerText = 
-                `${count}s of 5s to switch to ${player2.name}`
+                `${count}s of 5s to switch to ${player1.name}`
             if(count==5){ 
                 document.querySelector('.wait-modal').remove()
                 document.querySelector('body').innerHTML = ""
