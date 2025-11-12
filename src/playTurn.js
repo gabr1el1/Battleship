@@ -132,13 +132,10 @@ export default function playTurn(player1,player2){
                                         modal.innerText = `${count}s of 5s to switch to ${player1.name}`
                                     }
                                 
-                                }
-
-                                
+                                }     
                         })
                         }
-                       
-                        
+                           
                     }else if(pos==gb.MISSED){
                         cell.classList.add('missed')
                     }else if(typeof pos == 'object'){
@@ -150,18 +147,13 @@ export default function playTurn(player1,player2){
                         }else if(pos.getPosStatus(i,j)==gb.CLEAR){
                             cell.classList.add('open')
                             if(player1.getType()=='human'){
-                                cell.classList.add(typeOfBorder(pos,i,j))
                                 
                                 cell.addEventListener('click',()=>{
                                     cell.classList.remove('clear')
                                     cell.classList.add(gb.receiveAttack(i,j))
                                     grid.classList.add('playing')
-                                    if(!gb.gameOver()){
-                                        
-                                        setTimeout(()=>{
-                                            grid.classList.remove('playing')
-                                            playTurn(player1, player2)
-                                        },3000)
+                                    if(!gb.gameOver()){    
+                                        playTurn(player1, player2)
                                     }else{
                                         showGameOver()
                                     }

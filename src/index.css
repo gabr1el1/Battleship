@@ -14,7 +14,26 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: url('../assets/water-texture.png');
 }
+
+@font-face {
+    font-family: 'Stencil-Cargo-Army';
+    src: url('../assets/Stencil-Cargo-Army.ttf');
+}
+
+p{
+    user-select: none;
+}
+
+p.game-title{
+    font-family: 'Stencil-Cargo-Army';
+    font-size: 6vw;
+    position: absolute;
+    top: 0px;
+    
+}
+
 
 body.playing{
     flex-direction: row;
@@ -92,22 +111,36 @@ body.playing{
 }
 
 .open{
-    --background-color: lightgrey;
-    border: solid grey thin;
+    border: dotted grey thin;
 }
 
 .clear{
-    --background-color: skyblue;
-    --border-color: darkblue;
+    --background-color: rgb(172, 182, 210);
+    --border-color: black;
 }
 
 .hit{
-    --background-color: red;
+    background-image: url('../assets/explosion.png');
+    padding: 3px;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: center;
+    background-size: cover;
+    --background-color: DodgerBlue;
     --border-color: darkred;
+
 }
 
 .missed{
-    --background-color: black;
+    background-image: url('../assets/missile.png');
+    padding: 3px;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: center;
+    background-size: cover;
+    --background-color: DodgerBlue;
+    
+    
 }
 
 button.play{
