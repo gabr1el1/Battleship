@@ -3,22 +3,21 @@ import showGameOver from "./showGameOver.js";
 import typeOfBorder from "./typeOfBorder.js";
 export default function playTurn(player1,player2){
     
-    
     document.querySelectorAll('.play-area').forEach(element => {
         element.remove()
     });
 
     document.querySelector('body').className = 'playing'
     let playA1 = Object.assign(document.createElement('div'),
-            {className:'play-area'})
+            {className:'play-area current'})
     let playA2 = Object.assign(document.createElement('div'),
-            {className:'play-area'})
+            {className:'play-area not-current'})
 
     let playerInfo1 = document.createElement('h1')
-    playerInfo1.innerText = player1.name
+    playerInfo1.innerText = `${player1.name}'s board`
 
     let playerInfo2 = document.createElement('h1')
-    playerInfo2.innerText = player2.name  
+    playerInfo2.innerText = `Attack ${player2.name}'s board`
     playA1.append(playerInfo1)
     playA2.append(playerInfo2)
     document.querySelector('body').append(

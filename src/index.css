@@ -11,8 +11,8 @@ body,html{
 
 body{
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    font-family: 'Stencil-Cargo-Army';
     align-items: center;
     background-image: url('../assets/water-texture.png');
 }
@@ -24,31 +24,43 @@ body{
 
 p{
     user-select: none;
-}
-
-p.game-title{
-    font-family: 'Stencil-Cargo-Army';
-    font-size: 6vw;
-    position: absolute;
-    top: 0px;
     
 }
 
-
-body.playing{
-    flex-direction: row;
-
+div p{
+    color: black;
+    font-weight: bolder;
+    text-shadow: -3px 3px white;
 }
-.header{
-    flex: 1;
-    padding: 10px 15px 10px 15px;
-    max-height: min-content;
+
+p.game-title{
+    font-size: 4rem;
+    position: absolute;
+    top: 0px;
+    color: red;
+    text-shadow: -5px 5px orange,-7px 7px blue ; 
+    display: none; 
+}
+
+header{
+    position: relative;
+}
+
+
+#players-sec{
+    font-size: 1rem;
     display: flex;
-    gap:10px;
+    gap: 20px;
+    flex-wrap: wrap;
+    height: 100px;
 }
+form{
+    display: flex;
+    flex-direction: column;
+}
+
 
 .play-area{
-    flex:1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,6 +76,20 @@ body.playing{
 .grid.playing{
     pointer-events: none;
 }
+
+.grid.active .open{
+    background-color: rgba(57, 51, 51, 0.559);
+    
+}
+
+.play-area.not-current .grid {
+    border: medium solid blue;
+}
+
+.play-area.not-current .grid .cell:hover{
+    background-color: rgba(0, 0, 0, 0.53);
+}
+
 
 
 .complete{
@@ -111,7 +137,7 @@ body.playing{
 }
 
 .open{
-    border: dotted grey thin;
+    border: solid black thin;
 }
 
 .clear{
@@ -126,7 +152,6 @@ body.playing{
     background-origin: content-box;
     background-position: center;
     background-size: cover;
-    --background-color: DodgerBlue;
     --border-color: darkred;
 
 }
@@ -138,15 +163,65 @@ body.playing{
     background-origin: content-box;
     background-position: center;
     background-size: cover;
-    --background-color: DodgerBlue;
-    
-    
 }
 
+@keyframes myGradient{
+    0%{
+        background-image:linear-gradient(to right,navy,navy,white,white,white, white, white);
+    }
+    
+    20%{
+        background-image:linear-gradient(to right,white, white,navy,navy,white,white, white);
+    }
+   
+    40%{
+        background-image: linear-gradient(to right,white,white,white,navy,navy,white, white);
+    }
+    
+    60%{
+        background-image:linear-gradient(to right,white,white, white,white,navy,navy, white);
+    }
+
+    80%{
+        background-image:linear-gradient(to right,white,white,white,white,white, navy, navy);
+    }
+
+    80%{
+        background-image:linear-gradient(to right,white,white,white,white,white, white, navy);
+    }
+
+}
 button.play{
+    margin-top: 25px;
     width: 100px;
     height: 50px;
+    border-radius: 10px;
+    background-color: lightcyan;
+    color: white;
+    font-weight: bolder;
+    font-family: 'Stencil-Cargo-Army';
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
 }
+
+button.play img{
+    width: 100%;
+    height: 100%;
+}
+
+button.play:hover{
+    animation:myGradient;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+}
+
+.play-area button.play{
+    position: inherit;
+}
+
+
 
 .wait-modal, .game-over-modal{
     position: absolute;

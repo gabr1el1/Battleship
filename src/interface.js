@@ -11,14 +11,17 @@ function setUpGame(){
 }
 
 function setUpHeader(player1, player2){
+
     let header = document.createElement('div')
     header.className = 'header'
 
     let playBtn = document.createElement('button')
-
-    playBtn.innerText = 'Play'
     playBtn.className = 'play'
 
+    playBtn.append(
+        Object.assign(document.createElement('img'),
+        {src:'../assets/play-arrow.svg', alt:'Play'})
+    )
     let playCount = 0
 
     let p1Section = document.createElement('div')
@@ -28,19 +31,33 @@ function setUpHeader(player1, player2){
         })
     )
     let p2Section = document.createElement('div')
-    let dropdown = Object.assign(
-            document.createElement('select'),
-            {id:'select-type-player'}
+    let form = Object.assign(
+            document.createElement('form'),
+            {id:'form-type-player'}
         )
-    let option1 = Object.assign(
-        document.createElement('option'),
-        {value:'human',textContent:'Human'})
-    let option2 = Object.assign(
-        document.createElement('option'),
-        {value:'computer',textContent:'Computer'})
-    dropdown.append(option1,option2)
+    
+    let option1 = document.createElement('div')
+    option1.append(
+        Object.assign(document.createElement('input'),
+        {checked:'true',name:'type',id:'human', type:'radio',value:'human'}),
+        Object.assign(document.createElement('label'),
+        {htmlFor:'human',innerText:'Human'})
+    )
+    
 
-    dropdown.addEventListener('change',(e)=>{
+    let option2 = document.createElement('div')
+    option2.append(
+        Object.assign(document.createElement('input'),
+        {name:'type',id:'computer',type:'radio',value:'computer'}),
+        Object.assign(document.createElement('label'),
+        {htmlFor:'computer',innerText:'Computer'})
+    )
+
+    form.append(option1,option2)
+
+    
+
+    form.addEventListener('change',(e)=>{
         player2.setType(e.target.value)
         
     })
@@ -51,9 +68,13 @@ function setUpHeader(player1, player2){
         })
     )
 
-    p2Section.append(dropdown)
-    header.append(p1Section)
-    header.append(p2Section)
+    p2Section.append(form)
+    let playersSec = document.createElement('div')
+    playersSec.setAttribute('id','players-sec')
+    playersSec.append(p1Section,p2Section)
+    header.append(playersSec)
+
+    
     header.append(playBtn)
     document.querySelector('body').append(header)
 
@@ -69,7 +90,6 @@ function setUpHeader(player1, player2){
                 `${count}s of 5s to switch to ${player1.name}`
             if(count==5){ 
                 document.querySelector('.wait-modal').remove()
-                document.querySelector('body').innerHTML = ""
                 clearInterval(interval)
                 playTurn(player1,player2)
             }
@@ -77,20 +97,18 @@ function setUpHeader(player1, player2){
         
         if(playCount==1){
             player1.setPieces()
-            setUpBoard(player1)
-            document.querySelector('body').append(playBtn)
+            setUpBoard(player1, playBtn)
+            document.querySelector('.play-area').append(playBtn)
             header.remove()
         }else if(player2.getType()=='human' && playCount==2){
             player2.setPieces()
-            setUpBoard(player2)
-            document.querySelector('body').append(playBtn)
+            setUpBoard(player2, playBtn)
+            document.querySelector('.play-area').append(playBtn)
         }else if(player2.getType()=='computer' && playCount==2){
             player2.setPieces()
            
         }else if(player2.getType()=='human' && playCount==3){
-            player2.setPieces()
             interval = setInterval(changePlayer,1000)
-            
             document.querySelector('body').append(
                 Object.assign(
                 document.createElement('div'),
@@ -99,11 +117,14 @@ function setUpHeader(player1, player2){
                 className: 'wait-modal'}
                 )
             )
+
+            console.log(player1.getGb().getMap())
+            console.log(player2.getGb().getMap())
         }
     }) 
 }
 
-function setUpBoard(player){  
+function setUpBoard(player, playBtn){  
         let initialX = null
         let initialY = null
 
@@ -136,7 +157,7 @@ function setUpBoard(player){
             grid.className = 'grid'
             
             playArea.append(grid) 
-            
+            playArea.append(playBtn) 
             for (let i = 0; i < 10; i++) {
                 for (let j = 0; j < 10; j++) {
                     let cell = document.createElement('div')
