@@ -1,3 +1,5 @@
+import setUpGame from "./interface.js"
+
 export default function showGameOver(winnerName){
 
     const modalGameOver = Object.assign(

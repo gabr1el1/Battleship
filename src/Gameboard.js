@@ -23,6 +23,10 @@ export default function Gameboard(){
         }
     }
 
+    function getSunken(){
+        return sunkenShips
+    }
+
     function placeShip(initRow, initCol, ship, isShipVert){
         if(initRow<0 || initRow>9 || initRow<0 || initCol>9 ){
             return false
@@ -144,13 +148,13 @@ export default function Gameboard(){
     }
 
     function gameOver(){
-        return sunkenShips.length == 10
+        return sunkenShips == 10
     }
 
     return {placeShip, receiveAttack,
         CLEAR, MISSED,  HIT, OPEN_SHOT,
         sunkenShips, gameOver, getMap,
-        moveShip, initMap}  
+        moveShip, initMap, getSunken}  
 }
 
 

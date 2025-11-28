@@ -1,151 +1,201 @@
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0
 }
 
-body,html{
+body,
+html {
     min-height: 100vh;
     min-width: 100vw;
 }
 
-body{
+body {
     display: flex;
     justify-content: center;
-    font-family: 'Stencil-Cargo-Army';
     align-items: center;
+    position: relative;
+    flex-direction: column;
+    font-family: 'Stencil-Cargo-Army';
     background-image: url('../assets/water-texture.png');
 }
+
+
+body>p {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+body>.menu {
+    flex: 1;
+}
+
 
 @font-face {
     font-family: 'Stencil-Cargo-Army';
     src: url('../assets/Stencil-Cargo-Army.ttf');
 }
 
-p{
-    user-select: none;
-    
+@font-face {
+    font-family: 'pixelify';
+    src: url('../assets/Pixelify.ttf');
 }
 
-div p{
+p {
+    user-select: none;
+
+}
+
+div p {
     color: black;
     font-weight: bolder;
     text-shadow: -3px 3px white;
 }
 
-p.game-title{
+.game-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1%;
+    width: 100%;
     font-size: 4rem;
-    position: absolute;
-    top: 0px;
     color: red;
-    text-shadow: -5px 5px orange,-7px 7px blue ; 
-    display: none; 
+    text-shadow: -5px 5px orange, -7px 7px blue;
+    height: min-content;
 }
 
-header{
-    position: relative;
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-shadow: -3px 3px white;
 }
 
 
-#players-sec{
+#players-sec {
     font-size: 1rem;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     height: 100px;
 }
-form{
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
     display: flex;
     flex-direction: column;
 }
 
+.boards {
+    display: flex;
+}
 
-.play-area{
+.play-area {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
 }
-.grid{
+
+.grid {
     display: grid;
-    grid-template-columns: repeat(10,40px);
-    grid-template-rows: repeat(10,40px);
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+
 }
 
-.grid.playing{
+.grid.no-interaction {
     pointer-events: none;
 }
 
-.grid.active .open{
-    background-color: rgba(57, 51, 51, 0.559);
-    
-}
-
 .play-area.not-current .grid {
-    border: medium solid blue;
+    border: medium solid red;
 }
 
-.play-area.not-current .grid .cell:hover{
-    background-color: rgba(0, 0, 0, 0.53);
+.play-area.not-current .grid .cell:hover {
+    background-color: rgba(255, 0, 0, 0.639);
 }
 
+.play-area.current h2 {
+    color: blue;
+    text-shadow: -3px 3px orange, -5px 5px red;
+}
 
-
-.complete{
+.complete {
     border: medium solid var(--border-color);
 }
 
-
-
-.init-vert{
+.init-vert {
     border-top: medium solid var(--border-color);
     border-left: medium solid var(--border-color);
     border-right: medium solid var(--border-color);
 }
 
-.init-horiz{
-    border-top:medium solid var(--border-color);
-    border-left:medium solid var(--border-color);
-    border-bottom:medium solid var(--border-color);
-}
-
-.middle-vert{
-    border-left:medium solid var(--border-color);
-    border-right: medium solid var(--border-color);
-}
-
-.middle-horiz{
-    border-top:medium solid var(--border-color);
+.init-horiz {
+    border-top: medium solid var(--border-color);
+    border-left: medium solid var(--border-color);
     border-bottom: medium solid var(--border-color);
 }
 
-.final-vert{
-    border-bottom: medium solid var(--border-color);
-    border-left:medium solid var(--border-color);
+.middle-vert {
+    border-left: medium solid var(--border-color);
     border-right: medium solid var(--border-color);
 }
 
-.final-horiz{
-    border-top:medium solid var(--border-color);
+.middle-horiz {
+    border-top: medium solid var(--border-color);
+    border-bottom: medium solid var(--border-color);
+}
+
+.final-vert {
+    border-bottom: medium solid var(--border-color);
+    border-left: medium solid var(--border-color);
+    border-right: medium solid var(--border-color);
+}
+
+.final-horiz {
+    border-top: medium solid var(--border-color);
     border-right: medium solid var(--border-color);
     border-bottom: medium solid var(--border-color);
 }
 
-.cell{
+.cell {
     background-color: var(--background-color);
+    
 }
 
-.open{
+.play-area.not-current .open{
+    cursor: crosshair;
+}
+
+.open {
     border: solid black thin;
+    --background-color: rgba(0, 0, 0, 0.194);
 }
 
-.clear{
+.clear {
     --background-color: rgb(172, 182, 210);
     --border-color: black;
 }
 
-.hit{
+@keyframes changeStatus {
+    from {
+        opacity: 0.15;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hit {
     background-image: url('../assets/explosion.png');
     padding: 3px;
     background-repeat: no-repeat;
@@ -153,45 +203,56 @@ form{
     background-position: center;
     background-size: cover;
     --border-color: darkred;
-
 }
 
-.missed{
+.missed {
+    border: solid black thin;
+    --background-color: rgba(0, 0, 0, 0.493);
     background-image: url('../assets/missile.png');
     padding: 3px;
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position: center;
     background-size: cover;
+    animation: changeStatus;  
 }
 
-@keyframes myGradient{
-    0%{
-        background-image:linear-gradient(to right,navy,navy,white,white,white, white, white);
-    }
-    
-    20%{
-        background-image:linear-gradient(to right,white, white,navy,navy,white,white, white);
-    }
-   
-    40%{
-        background-image: linear-gradient(to right,white,white,white,navy,navy,white, white);
-    }
-    
-    60%{
-        background-image:linear-gradient(to right,white,white, white,white,navy,navy, white);
-    }
-
-    80%{
-        background-image:linear-gradient(to right,white,white,white,white,white, navy, navy);
-    }
-
-    80%{
-        background-image:linear-gradient(to right,white,white,white,white,white, white, navy);
-    }
-
+.play-area.not-current .grid .missed:hover{
+    background-color: rgba(0, 0, 0, 0.477);;
 }
-button.play{
+
+@keyframes myGradient {
+    0% {
+        background-image: linear-gradient(to right, navy, navy, white, white, white, white, white, white);
+    }
+
+    16.66% {
+        background-image: linear-gradient(to right, white, navy, navy, white, white, white, white, white);
+    }
+
+    33.33% {
+        background-image: linear-gradient(to right, white, white, navy, navy, white, white, white, white);
+    }
+
+    50% {
+        background-image: linear-gradient(to right, white, white, white, navy, navy, white, white, white);
+    }
+
+    66.66% {
+        background-image: linear-gradient(to right, white, white, white, white, navy, navy, white, white);
+    }
+
+    83.33% {
+        background-image: linear-gradient(to right, white, white, white, white, white, navy, navy, white);
+    }
+
+    100% {
+        background-image: linear-gradient(to right, white, white, white, white, white, white, navy, navy);
+    }
+}
+
+button.play {
+
     margin-top: 25px;
     width: 100px;
     height: 50px;
@@ -200,37 +261,80 @@ button.play{
     color: white;
     font-weight: bolder;
     font-family: 'Stencil-Cargo-Army';
-    position: absolute;
-    left: 50%;
-    translate: -50% 0;
 }
 
-button.play img{
+button.play img {
     width: 100%;
     height: 100%;
 }
 
-button.play:hover{
-    animation:myGradient;
+button.play:hover {
+    animation: myGradient;
     animation-iteration-count: infinite;
     animation-duration: 3s;
     animation-fill-mode: both;
 }
 
-.play-area button.play{
-    position: inherit;
-}
-
-
-
-.wait-modal, .game-over-modal{
-    position: absolute;
+.next-modal,
+.game-over-modal {
+    position: fixed;
     min-width: 100vw;
     min-height: 100vh;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+
+@keyframes youMissed {
+    0% {
+        translate: -1px;
+    }
+
+    50% {
+        translate: 3px; 
+    }
+
+    100% {
+        translate: -1px;
+    }  
+}
+
+.sunken-info{
+    color: white;
+    font-size: 1rem;
+    transition: all 3s ease;
+    text-shadow: -3px 3px 2px black;
+}
+
+.sunken-info::after{
+    font-family: 'pixelify';
+    color: red;
+    text-shadow:-2px 2px white;
+    transition: all 3s ease;
+    opacity: 0;
+    content: '';
+    margin-left: 10px;
+}
+
+.sunken-info.you-missed {
+    animation: youMissed;
+    animation-duration: 0.3s;
+    animation-iteration-count: 3;
+    color: rgb(104, 102, 102); 
+    text-shadow: none;
+}
+
+.sunken-info.you-missed::after{
+    content: 'You missed';
+    opacity: 1;
+}
+
+.sunken-info.you-hit {
+    font-size: 1.5rem;
+    color: green;
 }
 
 

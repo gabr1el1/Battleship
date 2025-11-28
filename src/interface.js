@@ -1,19 +1,20 @@
 
-import Player from "./Player.js";
+import {Human, Computer} from "./Player.js";
 import typeOfBorder from "./typeOfBorder.js";
 import playTurn from "./playTurn.js";
-function setUpGame(){
-    let player1 = Player('player1','human')
-    
-    let player2 = Player('player2','human')
-   
-    setUpHeader(player1,player2)   
+import ModalNext from "./modalNext.js";
+
+export default function setUpGame(){
+    let player1 = Human('player1','human')
+    let player2 = Human('player2','human')
+    setUpMenu(player1, player2)   
 }
 
-function setUpHeader(player1, player2){
-
-    let header = document.createElement('div')
-    header.className = 'header'
+function setUpMenu(player1,player2){
+    
+    let typeP2
+    let menu = document.createElement('div')
+    menu.className = 'menu'
 
     let playBtn = document.createElement('button')
     playBtn.className = 'play'
@@ -27,7 +28,7 @@ function setUpHeader(player1, player2){
     let p1Section = document.createElement('div')
     p1Section.append(
         Object.assign(document.createElement('p'),{
-            innerText: player1.name
+            innerText: player1.getName()
         })
     )
     let p2Section = document.createElement('div')
@@ -44,7 +45,6 @@ function setUpHeader(player1, player2){
         {htmlFor:'human',innerText:'Human'})
     )
     
-
     let option2 = document.createElement('div')
     option2.append(
         Object.assign(document.createElement('input'),
@@ -55,16 +55,9 @@ function setUpHeader(player1, player2){
 
     form.append(option1,option2)
 
-    
-
-    form.addEventListener('change',(e)=>{
-        player2.setType(e.target.value)
-        
-    })
-
     p2Section.append(
         Object.assign(document.createElement('p'),{
-            innerText: player2.name
+            innerText: player2.getName()
         })
     )
 
@@ -72,14 +65,17 @@ function setUpHeader(player1, player2){
     let playersSec = document.createElement('div')
     playersSec.setAttribute('id','players-sec')
     playersSec.append(p1Section,p2Section)
-    header.append(playersSec)
-
+    menu.append(playersSec)
     
-    header.append(playBtn)
-    document.querySelector('body').append(header)
+    menu.append(playBtn)
+    document.querySelector('body').append(
+        Object.assign(document.createElement('div'),
+        {className:'game-title', innerText: 'BATTLESHIP'})
+    )
+    
+    document.querySelector('body').append(menu)
 
-    playBtn.addEventListener('click',()=>{
-        
+    playBtn.addEventListener('click',()=>{ 
         let count = 0
         let interval
 
@@ -87,7 +83,7 @@ function setUpHeader(player1, player2){
         function changePlayer(){
             count+=1
             document.querySelector('.wait-modal').innerText = 
-                `${count}s of 5s to switch to ${player1.name}`
+                `${count}s of 5s to switch to ${player1.getName()}`
             if(count==5){ 
                 document.querySelector('.wait-modal').remove()
                 clearInterval(interval)
@@ -97,29 +93,27 @@ function setUpHeader(player1, player2){
         
         if(playCount==1){
             player1.setPieces()
+            typeP2 = document.querySelector('input[name="type"]:checked').value
+            if(typeP2=='computer'){
+                player2 = Computer('player2','computer')
+            }
             setUpBoard(player1, playBtn)
             document.querySelector('.play-area').append(playBtn)
-            header.remove()
+            menu.remove()   
         }else if(player2.getType()=='human' && playCount==2){
             player2.setPieces()
             setUpBoard(player2, playBtn)
             document.querySelector('.play-area').append(playBtn)
         }else if(player2.getType()=='computer' && playCount==2){
             player2.setPieces()
+            playTurn(player1,player2)
            
         }else if(player2.getType()=='human' && playCount==3){
-            interval = setInterval(changePlayer,1000)
-            document.querySelector('body').append(
-                Object.assign(
-                document.createElement('div'),
-                {innerText: 
-                `${count}s of 5s to switch to ${player1.name}`,
-                className: 'wait-modal'}
-                )
-            )
+            ModalNext(()=>playTurn(player1,player2))
 
-            console.log(player1.getGb().getMap())
-            console.log(player2.getGb().getMap())
+             
+            //console.log(player1.getGb().getMap())
+            //console.log(player2.getGb().getMap())
         }
     }) 
 }
@@ -134,23 +128,22 @@ function setUpBoard(player, playBtn){
         let currentX = null
         let currentY = null
 
-        let playArea
-        if(!document.querySelector('.play-area')){
-            playArea = document.createElement('div')
-            playArea.className = 'play-area'
-            document.querySelector('body').append(playArea)
-        }else{
-            document.querySelector('.play-area').remove()
-            playArea = document.createElement('div')
-            playArea.className = 'play-area'
-            document.querySelector('body').append(playArea)
-        }
-
         initBoard(player,true)
         function initBoard(player, setUp){
-            playArea.innerHTML = ""
+            let playArea
+
+            if(!document.querySelector('.play-area')){
+                playArea = document.createElement('div')
+                playArea.className = 'play-area'
+                document.querySelector('body').append(playArea)
+            }else{
+                document.querySelector('.play-area').remove()
+                playArea = document.createElement('div')
+                playArea.className = 'play-area'
+                document.querySelector('body').append(playArea)
+            }
             let playerInfo = document.createElement('h1')
-            playerInfo.innerText = player.name
+            playerInfo.innerText = player.getName()
             playArea.append(playerInfo)
 
             let grid = document.createElement('div')
