@@ -8,6 +8,7 @@ body,
 html {
     min-height: 100vh;
     min-width: 100vw;
+    
 }
 
 body {
@@ -94,21 +95,27 @@ form {
 
 .boards {
     display: flex;
+    width: 100vw;
+    justify-content: center;
+    padding: 30px;
+    gap: 20px
 }
 
 .play-area {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    width: 50%;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(10, 40px);
-    grid-template-rows: repeat(10, 40px);
+    width: 100%;
 
+    grid-template-columns: repeat(10, 10%);
+    aspect-ratio: 1/1;
 }
 
 .grid.no-interaction {
@@ -167,6 +174,7 @@ form {
 }
 
 .cell {
+    transition: background-color 0.5s ease-in-out, background-image 3s ease;
     background-color: var(--background-color);
     
 }
@@ -251,19 +259,18 @@ form {
     }
 }
 
-button.play {
-
+button {
     margin-top: 25px;
     width: 100px;
     height: 50px;
     border-radius: 10px;
     background-color: lightcyan;
     color: white;
-    font-weight: bolder;
-    font-family: 'Stencil-Cargo-Army';
 }
 
-button.play img {
+
+
+button img {
     width: 100%;
     height: 100%;
 }
@@ -275,16 +282,38 @@ button.play:hover {
     animation-fill-mode: both;
 }
 
-.next-modal,
-.game-over-modal {
+.modal {
     position: fixed;
+    top: -100%;
     min-width: 100vw;
     min-height: 100vh;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 2s ease;
 }
+
+.modal p{
+    position: absolute;
+    font-size: 1.5rem;
+    top: 10%;
+}
+.modal.active{
+    top: 0;
+}
+
+.game-over-modal.active{
+    opacity: 0.85;
+}
+
+body:has(.modal.active){
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+
+
 
 
 
@@ -335,6 +364,22 @@ button.play:hover {
 .sunken-info.you-hit {
     font-size: 1.5rem;
     color: green;
+}
+
+@media (max-width: 900px) {
+
+    .game-title{
+        font-size: 2rem;
+    }
+    .boards{
+        
+        flex-direction: column;
+    }
+
+    .play-area{
+        width: 100%;
+    }
+
 }
 
 

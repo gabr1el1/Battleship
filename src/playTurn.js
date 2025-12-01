@@ -1,7 +1,7 @@
 import randInt from "./randInt.js";
-import showGameOver from "./showGameOver.js";
+import ModalGameOver from "./ModalGameOver.js";
 import typeOfBorder from "./typeOfBorder.js";
-import ModalNext from "./modalNext.js";
+import ModalNext from "./ModalNext.js";
 export default function playTurn(player1,player2){
     document.body.innerHTML = ""
 
@@ -9,7 +9,6 @@ export default function playTurn(player1,player2){
         Object.assign(document.createElement('div'),
         {className:'game-title', innerText: 'BATTLESHIP'})
     )
-    document.querySelector('body').className = 'playing'
 
     let playA1 = Object.assign(document.createElement('div'),
             {className:'play-area current'})
@@ -44,7 +43,7 @@ export default function playTurn(player1,player2){
     boards.append(playA2)
 
     document.querySelector('body').append(boards)  
-    
+
     let grid1 = Object.assign(
     document.createElement('div'),
     {className:'grid'})
@@ -82,7 +81,16 @@ export default function playTurn(player1,player2){
                 if(pos.isSunk()){
                     document.querySelector('.sunken-info').classList.add('you-hit')
                     setTimeout(document.querySelector('.sunken-info').classList.remove('you-hit'),1500)
+                    if(player2.getGb().gameOver()){
+                        let modal = ModalGameOver(player1.getName())
+                        document.body.append(modal)
+                        setTimeout(()=>{
+                            document.querySelector('.game-over-modal')
+                            .classList.add('active')
+                        },3000)
+                    }
                 }
+
                 let missed = false
                 let interval = setInterval(action,3000)
                 function action(){
@@ -120,8 +128,14 @@ export default function playTurn(player1,player2){
                                 setTimeout(()=>document.querySelector('.sunken-info').classList.remove('you-hit'),1500)
                             }
 
-                            if(gb.gameOver()){    
-                                setTimeout(()=>showGameOver(player1.getName()),3000)
+                            if(gb.gameOver()){   
+                                clearInterval(interval) 
+                                let modal = ModalGameOver(player1.getName())
+                                document.body.append(modal)
+                                setTimeout(()=>{
+                                    document.querySelector('.game-over-modal')
+                                    .classList.add('active')
+                                },3000)
                             }
                         }else{
                             document.querySelector('.sunken-info').classList.add('you-missed')
@@ -138,10 +152,10 @@ export default function playTurn(player1,player2){
                 player1.useOpen(firstMove[0], firstMove[1])
                 setTimeout(()=>playTurn(player2,player1),3000)
             } 
-    }
+        }
                
-}  
-        
+    }
+
     function fillGrid(grid, player, currPlayer){
         grid.innerHTML = ""
         if(!currPlayer && player1.getType()=='computer'){
@@ -199,8 +213,11 @@ export default function playTurn(player1,player2){
                                     },3000)  
                                     
                                 }else{
+                                    let modal = ModalNext(()=>playTurn(player2,player1),
+                                     `Turn to ${player2.getName()}!`)
+                                    document.body.append(modal)
                                     setTimeout(()=>{ 
-                                        ModalNext(()=>playTurn(player2,player1))
+                                        document.querySelector('.next-modal').classList.add('active')
                                     },3000)  
                                 }
                                   
@@ -228,16 +245,20 @@ export default function playTurn(player1,player2){
                                             setTimeout(()=>document.querySelector('.sunken-info').classList.remove('you-hit'),1500)
                                             playTurn(player1,player2)
                                         }
-                                    if(gb.gameOver()){    
-                                        setTimeout(()=>showGameOver(player1.getName()),3000)
+                                    if(gb.gameOver()){  
+                                        let modal = ModalGameOver(player1.getName())
+                                        document.body.append(modal)
+                                        setTimeout(()=>{
+                                            document.querySelector('.game-over-modal')
+                                            .classList.add('active')
+                                        }
+                                        ,3000)
                                     }   
                                 }) 
                             
                             }
                             
                         }
-
-
                         
                     }
                 }

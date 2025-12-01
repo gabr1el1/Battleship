@@ -2,7 +2,7 @@
 import {Human, Computer} from "./Player.js";
 import typeOfBorder from "./typeOfBorder.js";
 import playTurn from "./playTurn.js";
-import ModalNext from "./modalNext.js";
+import ModalNext from "./ModalNext.js";
 
 export default function setUpGame(){
     let player1 = Human('player1','human')
@@ -80,16 +80,6 @@ function setUpMenu(player1,player2){
         let interval
 
         playCount+=1
-        function changePlayer(){
-            count+=1
-            document.querySelector('.wait-modal').innerText = 
-                `${count}s of 5s to switch to ${player1.getName()}`
-            if(count==5){ 
-                document.querySelector('.wait-modal').remove()
-                clearInterval(interval)
-                playTurn(player1,player2)
-            }
-        }
         
         if(playCount==1){
             player1.setPieces()
@@ -109,9 +99,18 @@ function setUpMenu(player1,player2){
             playTurn(player1,player2)
            
         }else if(player2.getType()=='human' && playCount==3){
-            ModalNext(()=>playTurn(player1,player2))
+            let modal = ModalNext(()=>{
+                playTurn(player1,player2)
 
-             
+            },`Turn to ${player1.getName()}!`)
+
+            document.body.append(modal)
+            
+            setTimeout(()=>document.querySelector('.next-modal').classList.add('active'),0)
+
+            //document.querySelector('.next-modal').classList.add('active')
+           
+           
             //console.log(player1.getGb().getMap())
             //console.log(player2.getGb().getMap())
         }
