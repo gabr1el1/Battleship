@@ -14,7 +14,7 @@ export default function ModalGameOver(winnerName){
 
     restartBtn.append(
         Object.assign(document.createElement('img'),
-        {src:'../assets/restart-arrow.svg', alt:'Restart game'})
+        {src:'assets/restart-arrow.svg', alt:'Restart game'})
     )
     
     modalGameOver.append(

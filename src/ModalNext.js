@@ -14,7 +14,7 @@ export default function ModalNext(cb, title='player'){
     )
     playBtn.append(
         Object.assign(document.createElement('img'),
-        {src:'../assets/play-arrow.svg', alt:'Start playing'})
+        {src:'assets/play-arrow.svg', alt:'Start playing'})
     )
 
     modalNext.append(playBtn)

@@ -4,6 +4,7 @@ import typeOfBorder from "./typeOfBorder.js";
 import playTurn from "./playTurn.js";
 import ModalNext from "./ModalNext.js";
 
+
 export default function setUpGame(){
     let player1 = Human('player1','human')
     let player2 = Human('player2','human')
@@ -21,7 +22,7 @@ function setUpMenu(player1,player2){
 
     playBtn.append(
         Object.assign(document.createElement('img'),
-        {src:'../assets/play-arrow.svg', alt:'Play'})
+        {src:'assets/play-arrow.svg', alt:'Play'})
     )
     let playCount = 0
 
