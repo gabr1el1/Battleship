@@ -11,7 +11,7 @@ export default function setUpGame(){
 }
 
 function setUpMenu(player1,player2){
-    
+    document.body.innerHTML = ""
     let typeP2
     let menu = document.createElement('div')
     menu.className = 'menu'
@@ -76,9 +76,6 @@ function setUpMenu(player1,player2){
     document.querySelector('body').append(menu)
 
     playBtn.addEventListener('click',()=>{ 
-        let count = 0
-        let interval
-
         playCount+=1
         
         if(playCount==1){
@@ -162,26 +159,25 @@ function setUpBoard(player, playBtn){
                     if(typeof map[i][j] == 'object'){
                         cell.classList.add('clear')
                         cell.classList.add(typeOfBorder(player.getGb().getMap()[i][j],i,j))
-                        if(setUp){
-                            cell.addEventListener('mousedown',(event)=>{
+                        
+                        cell.addEventListener('mousedown',(event)=>{
 
-                                cellX = event.target.dataset.row
-                                cellY = event.target.dataset.col
+                            cellX = event.target.dataset.row
+                            cellY = event.target.dataset.col
 
-                                initialX= event.clientX
-                                initialY = event.clientY
+                            initialX= event.clientX
+                            initialY = event.clientY
 
-                                currentX = initialX
-                                currentY = initialY
+                            currentX = initialX
+                            currentY = initialY
 
-                                shipOnDrag = map[cellX][cellY]
-                                cell.addEventListener('drag',onDrag)   
-                            })
+                            shipOnDrag = map[cellX][cellY]
+                            cell.addEventListener('drag',onDrag)   
+                        })
 
                         cell.addEventListener('dragend',()=>{
                             initBoard(player,true)
-                        })
-                        }    
+                        })  
                     }else{   
                         cell.classList.add('open')
                     }
@@ -194,6 +190,10 @@ function setUpBoard(player, playBtn){
             event.preventDefault()
         })
 
+        function onDoubleClick(event){
+
+        }
+
         function onDrag(event){
             
             currentX = event.clientX
@@ -203,22 +203,22 @@ function setUpBoard(player, playBtn){
                 initialX = currentX
                 player.getGb().moveShip(shipOnDrag,'right')
                 console.log('right')
-                initBoard(player,false)     
+                initBoard(player)     
             }else if(currentX < initialX && currentX - initialX < -45){
                 initialX = currentX
                 player.getGb().moveShip(shipOnDrag,'left')
                 console.log('left')
-                initBoard(player,false)  
+                initBoard(player)  
             }else if(currentY < initialY && currentY - initialY < -45){
                 initialY = currentY
                 player.getGb().moveShip(shipOnDrag,'up')
                 console.log('up')
-                initBoard(player,false)
+                initBoard(player)
             }else if(currentY > initialY && currentY - initialY > 45){
                 initialY = currentY
                 player.getGb().moveShip(shipOnDrag,'down')
                 console.log('down')
-                initBoard(player,false)
+                initBoard(player)
             }
         }        
 }            

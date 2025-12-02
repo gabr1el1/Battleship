@@ -151,6 +151,10 @@ export default function Gameboard(){
         }      
     }
 
+    function changeOrientation(ship, orientation){
+
+    }
+
     function gameOver(){
         return _sunkenShips == 10
     }
@@ -160,7 +164,7 @@ export default function Gameboard(){
     return {placeShip, receiveAttack,
         CLEAR, MISSED,  HIT, OPEN_SHOT,
         CLOSED, gameOver, getMap,
-        moveShip, getSunken}  
+        moveShip, changeOrientation, getSunken}  
 }
 
 
