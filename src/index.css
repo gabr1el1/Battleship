@@ -8,7 +8,7 @@ body,
 html {
     min-height: 100vh;
     min-width: 100vw;
-    
+
 }
 
 body {
@@ -82,7 +82,7 @@ div p {
     height: 100px;
 }
 
-.menu{
+.menu {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -113,8 +113,8 @@ form {
 .grid {
     display: grid;
     width: 100%;
-
     grid-template-columns: repeat(10, 10%);
+    max-width: 400px;
     aspect-ratio: 1/1;
 }
 
@@ -176,10 +176,10 @@ form {
 .cell {
     transition: background-color 0.5s ease-in-out, background-image 3s ease;
     background-color: var(--background-color);
-    
+
 }
 
-.play-area.not-current .open{
+.play-area.not-current .open {
     cursor: crosshair;
 }
 
@@ -222,11 +222,12 @@ form {
     background-origin: content-box;
     background-position: center;
     background-size: cover;
-    animation: changeStatus;  
+    animation: changeStatus;
 }
 
-.play-area.not-current .grid .missed:hover{
-    background-color: rgba(0, 0, 0, 0.477);;
+.play-area.not-current .grid .missed:hover {
+    background-color: rgba(0, 0, 0, 0.477);
+    ;
 }
 
 @keyframes myGradient {
@@ -294,20 +295,21 @@ button.play:hover {
     transition: all 2s ease;
 }
 
-.modal p{
+.modal p {
     position: absolute;
     font-size: 1.5rem;
     top: 10%;
 }
-.modal.active{
+
+.modal.active {
     top: 0;
 }
 
-.game-over-modal.active{
+.game-over-modal.active {
     opacity: 0.85;
 }
 
-body:has(.modal.active){
+body:has(.modal.active) {
     position: fixed;
     height: 100vh;
     width: 100vw;
@@ -323,25 +325,25 @@ body:has(.modal.active){
     }
 
     50% {
-        translate: 3px; 
+        translate: 3px;
     }
 
     100% {
         translate: -1px;
-    }  
+    }
 }
 
-.sunken-info{
+.sunken-info {
     color: white;
     font-size: 1rem;
     transition: all 3s ease;
     text-shadow: -3px 3px 2px black;
 }
 
-.sunken-info::after{
+.sunken-info::after {
     font-family: 'pixelify';
     color: red;
-    text-shadow:-2px 2px white;
+    text-shadow: -2px 2px white;
     transition: all 3s ease;
     opacity: 0;
     content: '';
@@ -352,11 +354,11 @@ body:has(.modal.active){
     animation: youMissed;
     animation-duration: 0.3s;
     animation-iteration-count: 3;
-    color: rgb(104, 102, 102); 
+    color: rgb(104, 102, 102);
     text-shadow: none;
 }
 
-.sunken-info.you-missed::after{
+.sunken-info.you-missed::after {
     content: 'You missed';
     opacity: 1;
 }
@@ -368,19 +370,17 @@ body:has(.modal.active){
 
 @media (max-width: 900px) {
 
-    .game-title{
+    .game-title {
         font-size: 2rem;
     }
-    .boards{
-        
+
+    .boards {
+
         flex-direction: column;
     }
 
-    .play-area{
+    .play-area {
         width: 100%;
     }
 
 }
-
-
-
