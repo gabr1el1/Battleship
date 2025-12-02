@@ -151,8 +151,15 @@ export default function Gameboard(){
         }      
     }
 
-    function changeOrientation(ship, orientation){
-        
+    function changeOrientation(ship){
+        const pos = ship.getPos()
+
+        cleanLine(pos.initRow,pos.initCol,ship.length,pos.isVert)
+
+        if(!placeShip(pos.initRow,pos.initCol,ship,!pos.isVert)){
+            ship.clearPosStatus()
+            placeShip(pos.initRow,pos.initCol,ship,pos.isVert)
+        }
     }
 
     function gameOver(){

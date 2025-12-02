@@ -181,6 +181,8 @@ function setUpBoard(player, playBtn){
                             cell.addEventListener('dragend',()=>{
                                 initBoard(player,true)
                             })  
+
+                            cell.addEventListener('dblclick',onDoubleClick)
                         }
                        
                     }else{   
@@ -196,7 +198,13 @@ function setUpBoard(player, playBtn){
         })
 
         function onDoubleClick(event){
+            const row = event.target.dataset.row
+            const col = event.target.dataset.col
 
+            const ship = player.getGb().getMap()[row][col]
+
+            player.getGb().changeOrientation(ship)
+            initBoard(player,true)
         }
 
         function onDrag(event){

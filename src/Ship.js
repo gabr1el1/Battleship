@@ -25,8 +25,6 @@ export default function Ship(length){
         _isVert = isVert
     }
 
-
-
     function getPos(){
         return {
             initRow: _initRow,
