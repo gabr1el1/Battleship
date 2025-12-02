@@ -152,7 +152,7 @@ export default function Gameboard(){
     }
 
     function changeOrientation(ship, orientation){
-
+        
     }
 
     function gameOver(){

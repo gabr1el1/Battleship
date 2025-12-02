@@ -124,6 +124,7 @@ function setUpBoard(player, playBtn){
         let currentX = null
         let currentY = null
 
+        let cellWidth = 0
         initBoard(player,true)
         function initBoard(player, setUp){
             let playArea
@@ -159,25 +160,29 @@ function setUpBoard(player, playBtn){
                     if(typeof map[i][j] == 'object'){
                         cell.classList.add('clear')
                         cell.classList.add(typeOfBorder(player.getGb().getMap()[i][j],i,j))
-                        
-                        cell.addEventListener('mousedown',(event)=>{
+                        if(setUp){
+                             cell.addEventListener('mousedown',(event)=>{
 
-                            cellX = event.target.dataset.row
-                            cellY = event.target.dataset.col
+                                cellX = event.target.dataset.row
+                                cellY = event.target.dataset.col
 
-                            initialX= event.clientX
-                            initialY = event.clientY
+                                initialX= event.clientX
+                                initialY = event.clientY
 
-                            currentX = initialX
-                            currentY = initialY
+                                currentX = initialX
+                                currentY = initialY
 
-                            shipOnDrag = map[cellX][cellY]
-                            cell.addEventListener('drag',onDrag)   
-                        })
+                                cellWidth = event.target.clientWidth
 
-                        cell.addEventListener('dragend',()=>{
-                            initBoard(player,true)
-                        })  
+                                shipOnDrag = map[cellX][cellY]
+                                cell.addEventListener('drag',onDrag)   
+                            })
+
+                            cell.addEventListener('dragend',()=>{
+                                initBoard(player,true)
+                            })  
+                        }
+                       
                     }else{   
                         cell.classList.add('open')
                     }
@@ -199,26 +204,26 @@ function setUpBoard(player, playBtn){
             currentX = event.clientX
             currentY = event.clientY
             
-            if(currentX > initialX && currentX - initialX > 45){
+            if(currentX > initialX && currentX - initialX > cellWidth){
                 initialX = currentX
                 player.getGb().moveShip(shipOnDrag,'right')
-                console.log('right')
-                initBoard(player)     
-            }else if(currentX < initialX && currentX - initialX < -45){
+                //console.log('right')
+                initBoard(player,false)     
+            }else if(currentX < initialX && currentX - initialX < -(cellWidth)){
                 initialX = currentX
                 player.getGb().moveShip(shipOnDrag,'left')
-                console.log('left')
-                initBoard(player)  
-            }else if(currentY < initialY && currentY - initialY < -45){
+                //console.log('left')
+                initBoard(player,false)  
+            }else if(currentY < initialY && currentY - initialY < -(cellWidth)){
                 initialY = currentY
                 player.getGb().moveShip(shipOnDrag,'up')
-                console.log('up')
-                initBoard(player)
-            }else if(currentY > initialY && currentY - initialY > 45){
+               // console.log('up')
+                initBoard(player,false)
+            }else if(currentY > initialY && currentY - initialY > cellWidth){
                 initialY = currentY
                 player.getGb().moveShip(shipOnDrag,'down')
-                console.log('down')
-                initBoard(player)
+                //console.log('down')
+                initBoard(player,false)
             }
         }        
 }            
