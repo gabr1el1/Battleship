@@ -4,7 +4,6 @@ import randInt from "./randInt.js"
 function Player(name,type){
 
     let _gb = Gameboard()
-    _gb.initMap()
 
     function getName(){
         return name
@@ -69,7 +68,6 @@ function Computer(name, type){
     let _av_open = {}
 
     function setPieces(){
-        player.getGb().initMap()
         let ships = [
             Ship(1),
             Ship(4),

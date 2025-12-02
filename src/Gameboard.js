@@ -3,15 +3,16 @@ export default function Gameboard(){
     const MISSED = 'missed'
     const HIT = 'hit'
     const CLEAR = 'clear'
+    const CLOSED = 'closed'
 
-    let sunkenShips = 0
+    let _sunkenShips = 0
     let _map
     
     function getMap(){
         return _map
     }
 
-    function initMap(){
+    function _initMap(){
         _map = []
         for (let i = 0; i < 10; i++) {
             let temp = []
@@ -24,7 +25,7 @@ export default function Gameboard(){
     }
 
     function getSunken(){
-        return sunkenShips
+        return _sunkenShips
     }
 
     function placeShip(initRow, initCol, ship, isShipVert){
@@ -83,11 +84,14 @@ export default function Gameboard(){
             _map[row][col] = MISSED
             return MISSED
         }else if(typeof _map[row][col] == 'object'){
+            if(_map[row][col].getPosStatus(row,col)==HIT){
+                return CLOSED
+            }
             let pos = _map[row][col]
             pos.hit()
             pos.setPosStatus(row,col,HIT)
             if(pos.isSunk()){
-                sunkenShips+=1
+                _sunkenShips+=1
             }
             return HIT
         }
@@ -148,13 +152,15 @@ export default function Gameboard(){
     }
 
     function gameOver(){
-        return sunkenShips == 10
+        return _sunkenShips == 10
     }
+
+    _initMap()
 
     return {placeShip, receiveAttack,
         CLEAR, MISSED,  HIT, OPEN_SHOT,
-        sunkenShips, gameOver, getMap,
-        moveShip, initMap, getSunken}  
+        CLOSED, gameOver, getMap,
+        moveShip, getSunken}  
 }
 
 
